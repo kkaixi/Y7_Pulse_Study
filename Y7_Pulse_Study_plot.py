@@ -29,14 +29,4 @@ dataset.get_data(['timeseries','features'])
 #    plt.show()
 #    plt.close(fig)
 
-#%% find predictors
-x = dataset.features.select_dtypes(np.float64)
-y = dataset.features['Min_12CHST0000Y7ACXC'].to_frame()
-x = drop_correlated(x,y)
-x = pd.concat((x, dataset.table.select_dtypes(np.float64).drop(['Head_3ms','Chest_3ms'], axis=1)), axis=1)
 
-x, y = preprocess_data(x, y)
-models = iter([Ridge(max_iter=i) for i in range(1, 30)])
-
-vs = VariableSelector(x, y, models)
-vs.find_variables()
